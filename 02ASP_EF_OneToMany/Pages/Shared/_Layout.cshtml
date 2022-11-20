@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="~/img/ico.ico" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="~/css/style.css" />
+
+    <title>@ViewData["Title"]</title>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <header class="sticky-top">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" asp-page="/Index">
+                        <img src="~/img/brand.svg" class="img-brand rounded-circle" alt="logo">
+                    </a>
+                    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavId">
+                        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Subscriptions">Подписки</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Categories">Виды изданий</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="btn-group" role="group">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Запросы
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-page="Querys" asp-page-handler="Query5">Запрос 5</a></li>
+                                        <li><a class="dropdown-item" asp-page="Querys" asp-page-handler="Query6">Запрос 6</a></li>
+                                        <li><a class="dropdown-item" asp-page="Querys" asp-page-handler="Query7">Запрос 7</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container">
+            <div class="shadow-lg rounded-3 my-4 p-5">
+                @RenderBody()
+            </div>
+        </main>
+
+        <footer class="footer bg-dark p-2 pt-3 d-flex align-content-end justify-content-around">
+            <p class="text-light"><strong>Разработчик:</strong> Пилюгин Даниил</p>
+            <p class="text-light"><strong>Год:</strong> 2022</p>
+            <p class="text-light"><strong>Город:</strong> Донецк</p>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>

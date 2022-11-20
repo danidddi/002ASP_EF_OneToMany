@@ -1,0 +1,54 @@
+﻿@page
+@model _02ASP_EF_OneToMany.Pages.CategoriesModel
+@{
+    ViewData["Title"] = "Категории";
+
+}
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Вид издания</th>
+                <th scope="col">Управление</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DisplayedCategories)
+            {
+                <tr>
+                    <td>@item.CategoryName</td>
+                    <td>
+                        <form method="post">
+                            <button type="submit" asp-page-handler="Edite" asp-route-id="@item.Id" class="btn btn-outline-warning me-4"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasEditeForm" aria-controls="offcanvasEditeForm">
+                                E
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- холст для формы редактирования категории -->
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasEditeForm">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Редактирование вида издания</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!--форма редактирования категории -->
+        <form method="post">
+            <div class="form-floating mb-3">
+                <input type="text" hidden class="form-control" asp-for="EditedCategory.Id" >
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="EditedCategory.CategoryName" placeholder="Введите вид" required>
+                <label>Вид</label>
+            </div>
+            <button type="submit" asp-page-handler="Save" class="btn btn-outline-dark w-100">Сохранить</button>
+        </form>
+    </div>
+</div>

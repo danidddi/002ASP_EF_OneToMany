@@ -1,0 +1,90 @@
+﻿@page
+@model _02ASP_EF_OneToMany.Pages.QuerysModel
+@{
+    ViewData["Title"] = "Запросы";
+
+}
+
+@if (Model.Query5 != null)
+{
+    <p>
+        Для каждого вида издания вычислена максимальная и минимальная цена 1 экземпляра и количество изданий в группе.
+    </p>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Вид издания</th>
+                    <th scope="col">Средняя цена 1 экзепмляра</th>
+                    <th scope="col">Количество изданий в группе</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Query5)
+                {
+                    <tr>
+                        <td>@item.type</td>
+                        <td>@item.avg</td>
+                        <td>@item.amnt</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (Model.Query6 != null)
+{
+    <p>
+        Для каждого вида издания вычислена средняя цена 1 экземпляра и количество изданий в группе.
+    </p>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Вид издания</th>
+                    <th>Максимальная цена 1 экзепмляра</th>
+                    <th>Минимальная цена 1 экзепмляра</th>
+                    <th>Количество изданий в группе</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Query6)
+                {
+                    <tr>
+                        <td>@item.type</td>
+                        <td>@item.min</td>
+                        <td>@item.max</td>
+                        <td>@item.amnt</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (Model.Query7 != null)
+{
+    <p>
+        Для каждого срока подписки вычислена средняя цена 1 экземпляра.
+    </p>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Длительность подписки</th>
+                    <th>Средняя цена экземпляра</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Query7)
+                {
+                    <tr>
+                        <td>@item.duration</td>
+                        <td>@item.cost</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,167 @@
+﻿@page "{id?}"
+@model _02ASP_EF_OneToMany.Pages.SubscriptionsModel
+@{
+    ViewData["Title"] = "Записи";
+}
+
+
+
+<!--панель инструментов-->
+<nav class="d-flex">
+
+    <!--выпадающий список добавления записи-->
+    <div class="btn-group ms-1">
+        <button type="button" class="btn btn-outline-dark dropdown-toggle"
+                data-bs-toggle="dropdown">
+            Добавить...
+        </button>
+        <div class="dropdown-menu">
+            <!--добавление вида издания-->
+            <button class="dropdown-item btn btn-outline-dark" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasAddCatForm" aria-controls="offcanvasAddCatForm">
+                вид издания
+            </button>
+            <!--добавление подписки-->
+            <button class="dropdown-item btn btn-outline-dark" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasAddSubForm" aria-controls="offcanvasAddSubForm">
+                подписку
+            </button>
+        </div>
+    </div>
+
+    <!--выпадающий список сортировок-->
+    <div class="btn-group ms-1">
+        <button type="button" class="btn btn-outline-dark dropdown-toggle"
+                data-bs-toggle="dropdown">
+            Сортировать:
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item btn btn-outline-dark" asp-page-handler="ByName">по наименованию</a>
+            <a class="dropdown-item btn btn-outline-dark" asp-page-handler="ByCost">по цены</a>
+        </div>
+    </div>
+
+    <!--поиск по индексу-->
+    <form method="post" class="input-group ms-3">
+        <label class="form-label me-1 mt-1" for="indexInput">Индекс:</label>
+        <input id="indexInput" type="text" class="form-control" required name="searchIndex">
+        <button type="submit" class="btn btn-outline-dark" asp-page-handler="FindByIndex">Найти</button>
+    </form>
+
+    <!--поиск по виду-->
+    <form method="post" class="input-group ms-3">
+        <select class="form-select" name="searchCategory" asp-items="Model.CategoryList"></select>
+        <button type="submit" class="btn btn-outline-dark" asp-page-handler="FindByCategory">Найти</button>
+    </form>
+    
+
+    <!--поиск по стоимости-->
+    <form method="post" class="input-group ms-3">
+        <label class="form-label me-1 mt-1" for="costInput">Стоимость:</label>
+        <input id="costInput" type="text" class="form-control" required placeholder="от..." name="min">
+        <input type="text" class="form-control" required placeholder="до..." name="max">
+        <button type="submit" class="btn btn-outline-dark" asp-page-handler="FindByCost">Найти</button>
+    </form>
+
+    <!--поиск по длительности подписки-->
+    <form method="post" class="input-group ms-3">
+        <label class="form-label me-1 mt-1" for="durationInput">Длительность:</label>
+        <input id="durationInput" type="text" class="form-control" required placeholder="от..." name="min">
+        <input type="text" class="form-control" required placeholder="до..." name="max">
+        <button type="submit" class="btn btn-outline-dark" asp-page-handler="FindByDuration">Найти</button>
+    </form>
+
+    <!--сброс фильров-->
+    <a class="btn btn-outline-dark ms-3" asp-page="EditionsTable">Сбросить...</a>
+</nav>
+
+<!-- холст для формы добавления подписки -->
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasAddSubForm">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Добавление записи</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!--форма добавления записи -->
+        <form method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="CurrentSubscription.Index"
+                       placeholder="Введите индекс" required>
+                <label>Индекс</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" asp-for="CurrentSubscription.CategoryId" asp-items="Model.CategoryList" required></select>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="CurrentSubscription.Name" placeholder="Введите название" required>
+                <label>Название</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" asp-for="CurrentSubscription.Cost" placeholder="Введите стоимость" required>
+                <label>Стоимость(руб.)</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="date" class="form-control" asp-for="CurrentSubscription.DateOfSub" placeholder="Введите дату начала подписки" required>
+                <label>Дата начала подписки</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="number" class="form-control" asp-for="CurrentSubscription.Duration" placeholder="Введите длительность подписки" required>
+                <label>Длительность подписки(месяцев)</label>
+            </div>
+            <button type="submit" asp-page-handler="AddSub" class="btn btn-outline-dark w-100">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+<!-- холст для формы добавления категории -->
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasAddCatForm">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Добавление вида издания</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!--форма добавления записи -->
+        <form method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="CurrentCategory.CategoryName" placeholder="Введите вид" required>
+                <label>Вид</label>
+            </div>
+            <button type="submit" asp-page-handler="AddCategory" class="btn btn-outline-dark w-100">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Индекс издания<br>по каталогу</th>
+                <th scope="col">Вид<br>издания</th>
+                <th scope="col">Наименование<br>издания</th>
+                <th scope="col">Стоимость<br>экземпляра</th>
+                <th scope="col">Дата начала<br>подписки</th>
+                <th scope="col">Длительность<br>подписки</th>
+                <th scope="col">Управление</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model?.DisplayedSubscriptions)
+            {
+                <tr>
+                    <td scope="row">@item.Index</td>
+                    <td>@item.Category.CategoryName</td>
+                    <td>@item.Name</td>
+                    <td>@item.Cost</td>
+                    <td>@item.DateOfSub</td>
+                    <td>@item.Duration</td>
+                    <td>
+                        <form method="post">
+                            <a asp-page="/EditModal" asp-route-id="@item.Id" class="btn btn-outline-warning me-4">E</a>
+                            <button type="submit" asp-page-handler="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Х</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

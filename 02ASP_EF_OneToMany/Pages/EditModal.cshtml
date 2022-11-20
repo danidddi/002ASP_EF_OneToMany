@@ -1,0 +1,39 @@
+﻿@page "{id?}"
+@model _02ASP_EF_OneToMany.Pages.EditModalModel
+@{
+    ViewData["Title"] = "Редактирование";
+}
+
+<!--форма добавления записи -->
+<form method="post">
+    <div class="form-floating mb-3">
+        <input type="text" hidden class="form-control" asp-for="Edition.Id"
+               placeholder="Введите индекс" required>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" asp-for="Edition.Index"
+               placeholder="Введите индекс" required>
+        <label>Индекс</label>
+    </div>
+    <div class="form-floating mb-3">
+        <select class="form-select" asp-for="Edition.CategoryId" asp-items="Model.CategoryList"></select>
+        <label>Вид</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" asp-for="Edition.Name" placeholder="Введите название" required>
+        <label>Название</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="number" class="form-control" asp-for="Edition.Cost" placeholder="Введите стоимость" required>
+        <label>Стоимость(руб.)</label>
+    </div>
+    <div class="form-floating mb-2">
+        <input type="date" class="form-control" asp-for="Edition.DateOfSub" placeholder="Введите дату начала подписки" required>
+        <label>Дата начала подписки</label>
+    </div>
+    <div class="form-floating mb-2">
+        <input type="number" class="form-control" asp-for="Edition.Duration" placeholder="Введите длительность подписки" required>
+        <label>Длительность подписки(месяцев)</label>
+    </div>
+    <button type="submit" asp-page-handler="Edite" class="btn btn-outline-dark w-100">Сохранить</button>
+</form>
